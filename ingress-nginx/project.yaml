@@ -12,7 +12,7 @@ spec:
     helm:
       values: |
         controller:
-          replicaCount: 2  
+          replicaCount: 1
           ingressClass: nginx-public
           ingressClassResource:
             name: nginx-public
