@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
-    targetRevision: 4.12.1   # ✅ versi terbaru yang kamu mau
+    targetRevision: 4.11.1   # ✅ versi terbaru yang kamu mau
     helm:
       values: |
         controller:
