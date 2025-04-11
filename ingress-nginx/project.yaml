@@ -23,7 +23,6 @@ spec:
             enabled: true
             serviceMonitor:
               enabled: true
-        
         # Tambah Dashboard otomatis
         dashboards:
           enabled: true
@@ -32,7 +31,7 @@ spec:
               gnetId: 9614
               revision: 1
               datasource: Prometheus
-              
+
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
