@@ -23,7 +23,7 @@ spec:
             enabled: true
             serviceMonitor:
               enabled: true
-        # Tambah Dashboard otomatis
+      
         dashboards:
           enabled: true
           default:
