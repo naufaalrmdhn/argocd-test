@@ -1,0 +1,8 @@
+🧾 Form Isian di Termius (Port Forwarding)
+
+Label	argocd-ui (bebas aja, buat nama)
+Local port number	8080
+Bind address	127.0.0.1
+Intermediate host	Pilih host
+Destination address	127.0.0.1
+Destination port	8080
