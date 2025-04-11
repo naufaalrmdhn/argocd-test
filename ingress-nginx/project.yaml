@@ -19,6 +19,10 @@ spec:
             default: false
           service:
             type: LoadBalancer
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
