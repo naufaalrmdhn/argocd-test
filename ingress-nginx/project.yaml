@@ -8,10 +8,11 @@ spec:
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
-    targetRevision: 4.11.1   # << ganti kalau mau versi lain
+    targetRevision: 4.12.1   # << ganti kalau mau versi lain
     helm:
       values: |
         controller:
+          replicaCount: 2  
           ingressClass: nginx-public
           ingressClassResource:
             name: nginx-public
