@@ -17,7 +17,7 @@ spec:
             type: ClusterIP
           ingress:
             enabled: true
-            ingressClassName: nginx  # Sesuaikan dengan ingress class yang Anda gunakan
+            ingressClassName: nginx-public  # Sesuaikan dengan ingress class yang Anda gunakan
             hosts:
               - grafana.test.my.id  # Ganti dengan domain Anda
         prometheus:
