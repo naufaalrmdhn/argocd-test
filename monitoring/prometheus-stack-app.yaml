@@ -40,6 +40,7 @@ spec:
                 revision: 1
                 datasource: Prometheus
         prometheus:
+          enabled: true
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false
   destination:
