@@ -20,6 +20,8 @@ spec:
             ingressClassName: nginx-public  # Sesuaikan dengan ingress class yang Anda gunakan
             hosts:
               - grafana.test.my.id  # Ganti dengan domain Anda
+        crds:
+          enabled: false
         prometheus:
           prometheusSpec:
             retention: 10d
