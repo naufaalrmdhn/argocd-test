@@ -1,29 +1,64 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  name: prometheus-stack
+  namespace: argocd  # Namespace dimana ArgoCD Anda terinstall
 spec:
-  destination:
-    namespace: monitoring
-    server: https://kubernetes.default.svc
   project: default
-  sources:
-    - repoURL: https://github.com/naufaalrmdhn/argocd-test/monitoring.git
-      targetRevision: HEAD
-    - repoURL: https://prometheus-community.github.io/helm-charts/
-      chart: prometheus
-      targetRevision: 19.7.2
-      helm:
-        values: |
-            server:
-              service:
-                type: LoadBalancer
+  source:
+    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 51.4.0  # Anda bisa memeriksa versi terbaru di repo helm
+    helm:
+      values: |
+        grafana:
+          adminPassword: prom-operator  # Ubah dengan password yang aman
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: true
+            ingressClassName: nginx  # Sesuaikan dengan ingress class yang Anda gunakan
+            hosts:
+              - grafana.test.my.id  # Ganti dengan domain Anda
+        prometheus:
+          prometheusSpec:
+            retention: 10d
+            resources:
+              requests:
+                cpu: 200m
+                memory: 200Mi
+              limits:
+                cpu: 1000m
+                memory: 1Gi
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: true
+            ingressClassName: nginx-public
+            hosts:
+              - prometheus.test.my.id  # Ganti dengan domain Anda
+        alertmanager:
+          alertmanagerSpec:
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                cpu: 500m
+                memory: 500Mi
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: true
+            ingressClassName: nginx-public
+            hosts:
+              - alertmanager.test.my.id  # Ganti dengan domain Anda
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring  # Namespace untuk monitoring stack
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
