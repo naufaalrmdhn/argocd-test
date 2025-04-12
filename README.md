@@ -1,4 +1,4 @@
-# lagi belajar deploy argocd di kube 
+# Tes
 
 ## Apply manifest
 ```
