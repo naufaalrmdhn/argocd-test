@@ -1,52 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus
+  name: prometheus
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
-  source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    chart: kube-prometheus-stack
-    targetRevision: 58.5.0
-    helm:
-      values: |
-        grafana:
-          adminPassword: prom-operator
-          service:
-            type: ClusterIP
-          ingress:
-            enabled: false
-          dashboards:
-            default:
-              ingress-nginx:
-                gnetId: 9614
-                revision: 1
-                datasource: Prometheus
-              kubernetes-cluster:
-                gnetId: 315
-                revision: 2
-                datasource: Prometheus
-              node-exporter:
-                gnetId: 1860
-                revision: 27
-                datasource: Prometheus
-              kubernetes-all-in-one:
-                gnetId: 6417
-                revision: 1
-                datasource: Prometheus
-              kubernetes-pods-detailed:
-                gnetId: 12802
-                revision: 1
-                datasource: Prometheus
-        prometheus:
-          enabled: true
-          prometheusSpec:
-            serviceMonitorSelectorNilUsesHelmValues: false
   destination:
-    server: https://kubernetes.default.svc
     namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://github.com/<git-username>/<git-repo>.git
+      targetRevision: HEAD
+    - repoURL: https://prometheus-community.github.io/helm-charts/
+      chart: prometheus
+      targetRevision: 19.7.2
+      helm:
+        values: |
+            server:
+              service:
+                type: LoadBalancer
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
